@@ -117,6 +117,7 @@ class TextField:
             self.chars.insert(self.cursor_pos, self.charmap[(keycode, mod & 0x1)])
             self.cursor_pos += 1
         except KeyError:
+            print("unknown", keycode, mod)
             return
 
     def backspace_char(self):

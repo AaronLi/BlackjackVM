@@ -4,12 +4,13 @@ import pygame
 from blackjackremote.blackjackprogram import BlackJackProgram
 from data.image_half_colour import OCSimpleImage
 
-BACKEND_IP = ("127.0.0.1", 6525)
+BACKEND_IP = ("0.0.0.0", 6525)
 
 class BlackJackVM(socketserver.StreamRequestHandler):
-    timeout = 60
+    timeout = 120
 
     def setup(self) -> None:
+        print("new connection")
         super().setup()
 
     def handle(self) -> None:
@@ -19,7 +20,7 @@ class BlackJackVM(socketserver.StreamRequestHandler):
         self.wfile.write((OCSimpleImage(render_surf).serialize()+"\n").encode('utf-8'))
         running = True
         while running:
-            user_input = self.rfile.readline().decode("utf-8").split(" ")
+            user_input = self.rfile.readline().decode("utf-8").strip().split(" ")
             if user_input[0] == 'click':
                 game.mouse_click(int(user_input[1]), int(user_input[2]))
             elif user_input[0] == 'key':
@@ -40,5 +41,5 @@ if __name__ == '__main__':
     else:
         server_backend = socketserver.ThreadingTCPServer
 
-    with server_backend(("localhost", 9999), BlackJackVM) as server:
+    with server_backend(BACKEND_IP, BlackJackVM) as server:
         server.serve_forever()
