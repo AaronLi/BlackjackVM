@@ -4,7 +4,7 @@ import pygame
 from blackjackremote.blackjackprogram import BlackJackProgram
 from data.image_half_colour import OCSimpleImage
 
-BACKEND_IP = ("0.0.0.0", 6525)
+SERVER_IP = ("0.0.0.0", 6525)
 
 class BlackJackVM(socketserver.StreamRequestHandler):
     timeout = 120
@@ -41,5 +41,5 @@ if __name__ == '__main__':
     else:
         server_backend = socketserver.ThreadingTCPServer
 
-    with server_backend(BACKEND_IP, BlackJackVM) as server:
+    with server_backend(SERVER_IP, BlackJackVM) as server:
         server.serve_forever()

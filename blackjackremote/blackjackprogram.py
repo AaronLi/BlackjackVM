@@ -191,6 +191,7 @@ class BlackJackProgram(Window):
 
     def key_input(self, keycode, mod) -> None:
         super().key_input(keycode, mod)
+        print(self.username_field.get_string())
         if self.auth is None:
             if self.username is None:
                 if self.registration_qr is None:
